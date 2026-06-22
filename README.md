@@ -17,6 +17,27 @@ competition types, Ski Slalom and Biathlon.
   youngest medalist; writes final rankings to a text file; Biathlon data
   supports Java serialization/deserialization.
 
+## Architecture
+
+The project follows a layered design under the base package
+`org.nbu.citb408.olympics`, separating data models, business logic,
+exception handling, I/O, and the console UI:
+
+| Package / type | Responsibility |
+|----------------|----------------|
+| `model` | Data models: `Gender`, immutable `Athlete` (id-based equality, `age(asOf)`, serializable), and the `Result` contract (`athlete`, `finalTime`, `isDnf`). |
+| `competition` | Business logic for events. Abstract `Competition` enforces gender / minimum-age / duplicate-registration rules. `SkiSlalom` (+`SkiSlalomResult`) implements two-run qualification and combined-time ranking; `Biathlon` (+`BiathlonResult`) implements penalty-per-miss final-time ranking and is serializable. |
+| `olympics` | Aggregation: `Olympics` collects competitions and computes medalists (`Medal`/`Medalist`), medals per country, average participant age, and the youngest medalist. |
+| `exception` | Domain exception hierarchy: `CompetitionException` base, with `IneligibleAthleteException` and `DuplicateRegistrationException`. |
+| `io` | `RankingWriter` exports all final rankings to a text file; `BiathlonSerializer` serializes/deserializes `Biathlon` data. |
+| `Main` / `ConsoleApp` / `DemoData` | Entry point with a `Scanner`-driven interactive menu and a `--demo` report mode, plus a reusable sample-data builder. |
+
+DNF athletes are excluded from final rankings throughout; times are tracked
+in seconds and displayed to three decimal places.
+
+The full task-by-task implementation plan lives in
+[`docs/superpowers/plans/2026-06-22-winter-olympics.md`](docs/superpowers/plans/2026-06-22-winter-olympics.md).
+
 ## Requirements
 
 - JDK 21 (toolchain-pinned via Gradle; no system-wide Java change needed)
@@ -25,9 +46,15 @@ competition types, Ski Slalom and Biathlon.
 ## Build & Run
 
 ```sh
-./gradlew run
-./gradlew test
+./gradlew run                 # interactive console menu
+./gradlew run --args="--demo" # print a demo report from sample data
+./gradlew test                # run the JUnit 5 suite
+./gradlew build               # compile, test, and assemble
+./gradlew jacocoTestReport    # generate the coverage report
 ```
+
+Continuous integration runs the build and uploads coverage to Codecov via
+GitHub Actions (`.github/workflows/ci.yml`).
 
 ## Status
 
