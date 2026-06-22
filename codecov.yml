@@ -1,0 +1,23 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 5%
+    patch:
+      default:
+        target: 80%
+
+ignore:
+  - "src/main/java/org/nbu/citb408/olympics/Main.java"
+  - "src/main/java/org/nbu/citb408/olympics/ConsoleApp.java"
+  - "src/main/java/org/nbu/citb408/olympics/DemoData.java"
+
+comment:
+  layout: "header, diff, flags, components, sources, footer"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+  branches:
+    - main
