@@ -1,5 +1,29 @@
 # Winter Olympics Manager
 
+[![GH_Build Icon]][GH_Build Status]&emsp;[![Coverage Icon]][Coverage Status]&emsp;[![License Icon]][LICENSE]
+
+[GH_Build Icon]: https://img.shields.io/github/actions/workflow/status/1Git2Clone/citb408-project-winter-olympics/ci.yml?branch=main
+[GH_Build Status]: https://github.com/1Git2Clone/citb408-project-winter-olympics/actions?query=branch%3Amain
+[Coverage Icon]: https://codecov.io/gh/1Git2Clone/citb408-project-winter-olympics/branch/main/graph/badge.svg
+[Coverage Status]: https://codecov.io/gh/1Git2Clone/citb408-project-winter-olympics
+[License Icon]: https://img.shields.io/badge/license-MIT-blue.svg
+[License]: LICENSE
+
+<!-- markdownlint-disable MD033 -->
+<p>
+  <img
+    height="50px"
+    src="https://codeberg.org/1Kill2Steal/skill-icons/raw/branch/main/icons/Java-Dark.svg"
+    alt="Java"
+  />
+  <img
+    height="50px"
+    src="https://codeberg.org/1Kill2Steal/skill-icons/raw/branch/main/icons/GithubActions-Dark.svg"
+    alt="GitHub Actions"
+  />
+</p>
+<!-- markdownlint-enable MD033 -->
+
 CITB408 (Programming with Java) course project — Spring 2025/2026, NBU.
 Variant 2: an application for managing a Winter Olympics with two
 competition types, Ski Slalom and Biathlon.
@@ -45,13 +69,49 @@ The full task-by-task implementation plan lives in
 
 ## Build & Run
 
+### Build
+
 ```sh
-./gradlew run                 # interactive console menu
-./gradlew run --args="--demo" # print a demo report from sample data
-./gradlew test                # run the JUnit 5 suite
-./gradlew build               # compile, test, and assemble
-./gradlew jacocoTestReport    # generate the coverage report
+./gradlew build                    # compile + test + jar
+./gradlew build jacocoTestReport   # build + coverage report (XML + HTML)
 ```
+
+### Run
+
+**Demo mode** (non-interactive, prints rankings + medalists to stdout):
+
+```sh
+./gradlew run --args="--demo"
+```
+
+**Interactive mode** (Scanner-driven menu):
+
+```sh
+./gradlew run
+```
+
+Then choose from the menu:
+
+```
+=== Winter Olympics 2026 ===
+1) Show rankings
+2) Show medalists
+3) Show medals by country
+4) Show statistics
+5) Export rankings to file
+0) Exit
+```
+
+Option 5 writes the final rankings to `build/rankings.txt`.
+
+### Test
+
+```sh
+./gradlew test               # run all 21 tests
+./gradlew test --tests "org.nbu.citb408.olympics.competition.SkiSlalomTest"  # one class
+```
+
+Coverage report: `build/reports/jacoco/test/jacocoTestReport/index.html`
 
 Continuous integration runs the build and uploads coverage to Codecov via
 GitHub Actions (`.github/workflows/ci.yml`).
@@ -67,3 +127,4 @@ and a JUnit 5 test suite with JaCoCo coverage and GitHub Actions CI.
 ## License
 
 [MIT](LICENSE)
+
