@@ -31,8 +31,11 @@ competition types, Ski Slalom and Biathlon.
 
 ## Status
 
-Project scaffolded (Gradle + JDK 21 toolchain, package
-`org.nbu.citb408.olympics`); domain model implementation in progress.
+Implemented: domain models, Ski Slalom (two-run combined ranking), Biathlon
+(penalty-based ranking, serializable), Olympics aggregate (medals, medals per
+country, average age, youngest medalist), text ranking export, Biathlon
+serialization, interactive console menu, demo mode (`./gradlew run --args="--demo"`),
+and a JUnit 5 test suite with JaCoCo coverage and GitHub Actions CI.
 
 ## License
 
